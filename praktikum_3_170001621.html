@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		canvas{
+			background-color: #ccc;
+		}
+	</style>
+</head>
+<body>
+ <canvas id="canvas1" width="800" height="600" onclick="crd(event)">
+        </canvas> 
+        <script>
+          
+        
+            var canvas=document.getElementById("canvas1");
+            var ctx=canvas.getContext("2d");
+            var x,y;
+            var init=0; var cnt=0;
+            var objx=[]; 
+            var objy=[]; 
+            var ax=0;    var bx=0;  var cx=0;
+            var ay=0;    var by=0;  var cy=0;
+            var precnt=1;
+            
+            //AWAL EVENT DIMULAI--------------------------------------------
+            function crd(event) {
+                //MENGAMBIL POSISI MOUSE X DAN Y
+                x = event.offsetX; 
+                y = event.offsetY; 
+                //MEMBUAT TITIK AWAL OBJEK BERDASARKAN JUMLAH KLIK MOUSE(VARIABLE INIT) BERNILAI 1
+                if(init==0){
+                    objx[cnt]=x;
+                    objy[cnt]=y;
+                    var print="TITIK AWAL X : "+objx[cnt]+" TITIK AWAL Y : "+objy[cnt];
+                    document.getElementById("posisi").innerHTML=print;
+                }
+                
+                init++;
+                //MEMANGGIL FUNGSI UNTUK MEMBUAT GARIS
+                line(x,y);
+                
+                
+            }
+        
+            function line(x,y){            
+            
+            var posi="POSISI X: "+x+" POSISI Y:"+y+" OBJEK ARR KE :"+cnt+" TITIK KE :"+init;
+            document.getElementById("pp").innerHTML=posi;
+//--------SETIAPP JUMLAH KLIK TELAH DI RESET MENJADI =1 MAKA TITIK AWAL OBJEK MENJADI TITIK X DAN Y SAAT INI
+            if(init==1){
+                
+                ctx.moveTo(x,y);
+                
+            }
+            ctx.lineTo(x,y); 
+            ctx.lineWidth = 2;
+            ctx.stroke();
+// -------METODE UNTUK MENYESUAIKAN JIKA TITIK AWAL DAN AKHIIR SAMA
+            //KONDISI A-----------
+                if(x>objx[cnt]){
+                    ax=objx[cnt]-x;
+                    bx=objy[cnt]-y;
+                    cx=Math.abs(ax+bx);
+                }else{
+                    ax=x-objx[cnt];
+                    bx=y-objy[cnt];
+                    cx=Math.abs(ax+bx);
+                }
+            //KONDISI B-----------
+                if(y>objx[cnt]){
+                    ay=objx[cnt]-x;
+                    by=objy[cnt]-y;
+                    cy=Math.abs(ay+by);
+                }else{
+                    ay=x-objx[cnt];
+                    by=y-objy[cnt];
+                    cy=Math.abs(ay+by);
+                }
+                //CEK NILAI KONDISI A DAN B-------------
+                var kon="SIKON A: "+cx+" SIKON B:"+cy;
+                    document.getElementById("kondisi").innerHTML=kon;
+//--------MEMASTIKAN NILAI A DAN B MENDEKATI TITIK AWAL
+                //JIKA IYA------------
+                if(cx<3&&cy<3){
+                    //OBJEK DI BERI WARNA  BIRU-----
+                    ctx.fillStyle="blue";
+                    ctx.fill();
+                    //PENGKONDISIAN PRECOUNT DAN COUNT (NILAI OBJEK KE .... CNT)
+                    /*NOTE
+                        -UNTUK MENCEGAH DELAY KLIK SAAT MEMBUAT OBJEK BARU
+                        -DI AWAL PRECNT BERNILAI SATU UNTUK MENCEGAH KONDISI SETELAHNYA DI RUN LANGSUNG
+                            PADA PROSES PERTAMA YANG MENYEBABKAN INIT DI INISIALISASI SEBAGAI =0 SETIAP FUNGSI DI PANGGIL
+                        -JIKA NILAI CNT DAN PRECNT SAMA MAKA JUMLAH KLIK (INIT) DI RESET KE 0
+                            DAN NILAI OBJEK ARRAY KE-'' BEPINDAH KE NILAI SELANJUTNYA 
+                    */
+                    if(init>1){
+                        precnt=cnt;    
+                    }
+                    if(precnt==cnt){
+                        init=0; 
+                        cnt++;
+                        
+                    }
+                }
+            
+            }
+
+    
+
+</script>
+<p id="pp"></p>
+<p id="kondisi"></p>
+<p id="posisi"></p>
+</body>
+</html>
