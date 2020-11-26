@@ -37,13 +37,13 @@ function startGame() {
  sprites[i]=new sprite(i+'.jpg',b_obj,d_res*a);
  dragable(sprites[i]);
  }
- var tgt=[];
+ var tgt=0;
  b_target=700;
  for(i=1;i<=7;i++){
  	for(j=1;j<=4;j++){
  		tgt+=1;
-		targets[tgt]=new target(tgt+'.jpg',b_target,i*a);
-		
+		targets[tgt]=new sprite(tgt+'.jpg',b_target,i*a);
+		dragable(targets[tgt]);
 		b_target+=100;
  	}
  	b_target=700;
