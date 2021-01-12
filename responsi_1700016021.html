@@ -1,0 +1,77 @@
+<html>
+    <head><title>Garis penghubung</title></head>
+<body>
+        <canvas id="canvas1" width="800" height="600" onclick="crd(event)">
+        </canvas> 
+        <audio autoplay>
+            <source src="florida-GDFR.mp3" type="audio/mp3">
+            Your browser doesn't support HTML 5 audio.
+        </audio>
+        
+        <script>
+          // alert("Klik pada kanvas"); 
+
+     
+            var canvas=document.getElementById("canvas1");
+            var ctx=canvas.getContext("2d");
+            
+            var dotx=[];
+            var doty=[];
+            var init=0;
+
+//warna canvas---------------------------------------------------------------    
+            var clrid = document.getElementById("canvas1");
+            var clr = ["#ffc", "#ccc", "#aaa", "#00f"]; 
+            var i = 0; 
+
+
+            function change(){ 
+                clrid.style.backgroundColor = clr[i];
+                i++; 
+                if(i > clr.length - 1){ 
+                    i = 0; 
+                } 
+            } 
+            setInterval(change, 500);
+            
+            
+//Membuat titik-------------------------------------------------------------       
+            function dot(x,y){
+            
+            ctx.beginPath();
+            ctx.arc(x, y, 5, 0, 2 * Math.PI);
+            ctx.fillStyle = clr[i];
+                i++; 
+                if(i > clr.length - 1){ 
+                    i = 0; 
+                }
+            
+            ctx.fill();
+            ctx.stroke();
+            ctx.closePath();
+           
+            }
+//membuat garis penghubung titik--------------------------------------------            
+            function line(){
+            var i;
+            for(i=0;i<dotx.length;i++){
+            ctx.lineTo(dotx[i],doty[i]);    
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            }
+                
+            }
+            
+//menyimpan kordinat mouse x dan y lalu memanggil fungsi dot dan line-------            
+            function crd(event) {
+                var x = event.offsetX; dotx[init]=x;
+                var y = event.offsetY; doty[init]=y;
+                    dot(x,y);
+                    if(dotx.length>1){
+                    line();
+                    }
+                    init++;
+            }
+</script>
+</body>
+</html>
